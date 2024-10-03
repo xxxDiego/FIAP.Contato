@@ -14,6 +14,7 @@ public class EntityToModel : Profile
                  ? $"({src.DDD}) {src.Telefone.Substring(0, 5)}-{src.Telefone.Substring(5)}"
                  : $"({src.DDD}) {src.Telefone.Substring(0, 4)}-{src.Telefone.Substring(4)}"
          ));
+
         CreateMap<Contato, ContatoModelResponse>()
          .ForMember(dest => dest.Telefone, opt => opt.MapFrom(src =>
              src.Telefone.Length == 9
