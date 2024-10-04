@@ -1,6 +1,7 @@
 using FIAP_Contato.API.Middleware;
 using FIAP_Contato.CrossCutting;
-using FIAP_Contato.CrossCutting.Log;
+using FIAP_Contato.CrossCutting.Logger;
+
 using Microsoft.OpenApi.Models;
 using MySqlConnector;
 using System.Data;
