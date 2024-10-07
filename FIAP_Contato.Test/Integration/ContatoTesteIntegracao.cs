@@ -40,7 +40,7 @@ namespace FIAP_Contato.Test.Integration
             _contatoDomainService = new ContatoDomainService(_contatoRepository);
         }
 
-        [Fact(DisplayName = "CadastrarContato")]
+        [Fact]
         [Trait("Categoria", "Integration")]
         public async Task CadastrarContato_DeveCadastrarComSucesso()
         {
@@ -64,7 +64,7 @@ namespace FIAP_Contato.Test.Integration
             Assert.Contains(contatos, c => c.Email == "joao.silva@gmail.com");
         }
 
-        [Fact(DisplayName = "AtualizarContato")]
+        [Fact]
         [Trait("Categoria", "Integration")]
         public async Task AtualizarContato_DeveAtualizarComSucesso()
         {
@@ -99,7 +99,7 @@ namespace FIAP_Contato.Test.Integration
             Assert.Equal("João Modificado", contatoAtualizadoBanco.Nome);
         }
 
-        [Fact(DisplayName = "DeletarContato")]
+        [Fact]
         [Trait("Categoria", "Integration")]
         public async Task DeletarContato_DeveDeletarComSucesso()
         {
@@ -128,7 +128,7 @@ namespace FIAP_Contato.Test.Integration
             Assert.DoesNotContain(contatosRestantes, c => c.Email == "carlos.deletado@gmail.com");
         }
 
-        [Fact(DisplayName = "ObterTodosContatos")]
+        [Fact]
         [Trait("Categoria", "Integration")]
         public async Task ObterTodosContatos_DeveRetornarListaContatos()
         {

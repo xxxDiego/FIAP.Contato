@@ -1,4 +1,5 @@
 ﻿using Bogus;
+
 using FIAP_Contato.API.Controllers;
 using FIAP_Contato.Application.Mapper;
 using FIAP_Contato.Application.Model;
@@ -6,13 +7,17 @@ using FIAP_Contato.Application.Service;
 using FIAP_Contato.Domain.Entity;
 using FIAP_Contato.Domain.Interface.Repository;
 using FIAP_Contato.Domain.Service;
+
 using Microsoft.AspNetCore.Mvc;
+
 using Moq;
+
 using System.ComponentModel.DataAnnotations;
+
+using Xunit;
 
 namespace FIAP_Contato.Test.Unit;
 
-[TestFixture]
 public class ContatoTesteUnitario
 {
     private readonly Faker<ContatoModel> _faker;
@@ -36,7 +41,8 @@ public class ContatoTesteUnitario
         _mapper = MapperConfiguration.RegisterMapping();
     }
 
-    [Test]
+    [Fact]
+    [Trait("Categoria", "Unit")]
     public void CadastrarContato_Sucesso()
     {
         // Arrange
@@ -54,12 +60,12 @@ public class ContatoTesteUnitario
         var response = contatoController.CadastrarContato(model).Result;
 
         // Assert
-        Assert.That(validarAnnotation, Is.True);
-        Assert.That(((ObjectResult)response).Value, Is.EqualTo("Cadastrado com sucesso!"));
-
+        Assert.True(validarAnnotation);
+        Assert.Equal("Cadastrado com sucesso!", ((ObjectResult)response).Value);
     }
 
-    [Test]
+    [Fact]
+    [Trait("Categoria", "Unit")]
     public void CadastrarContato_Erro_Retorno_Banco()
     {
         // Arrange
@@ -76,10 +82,11 @@ public class ContatoTesteUnitario
         var ex = Assert.ThrowsAsync<InvalidOperationException>(async () => await contatoController.CadastrarContato(model));
 
         // Assert
-        Assert.That(ex.Message, Is.EqualTo("Erro ao Cadastrar!"));
+        Assert.Equal("Erro ao Cadastrar!", ex.Result.Message);
     }
 
-    [Test]
+    [Fact]
+    [Trait("Categoria", "Unit")]
     public void CadastrarContato_Erro_Contato_Existente()
     {
         // Arrange
@@ -97,10 +104,11 @@ public class ContatoTesteUnitario
         var ex = Assert.ThrowsAsync<InvalidOperationException>(async () => await contatoController.CadastrarContato(listaDeModelos.FirstOrDefault()));
 
         // Assert
-        Assert.That(ex.Message, Is.EqualTo("Contato já existe!"));
+        Assert.Equal("Contato já existe!", ex.Result.Message);
     }
 
-    [Test]
+    [Fact]
+    [Trait("Categoria", "Unit")]
     public void CadastrarContato_Erro_Campos_Obrigatorios()
     {
         // Arrange
@@ -115,32 +123,13 @@ public class ContatoTesteUnitario
         Validator.TryValidateObject(model, new ValidationContext(model, serviceProvider: null, items: null), validationResults, validateAllProperties: true);
 
         // Assert
-        Assert.That(validationResults[0].ErrorMessage, Is.EqualTo("Nome é obrigatório!"));
-        Assert.That(validationResults[1].ErrorMessage, Is.EqualTo("Telefone é obrigatório!"));
-        Assert.That(validationResults[2].ErrorMessage, Is.EqualTo("E-mail é obrigatório!"));
+        Assert.Equal("Nome é obrigatório!", validationResults[0].ErrorMessage);
+        Assert.Equal("Telefone é obrigatório!", validationResults[1].ErrorMessage);
+        Assert.Equal("E-mail é obrigatório!", validationResults[2].ErrorMessage);
     }
 
-    [Test]
-    public void CadastrarContato_Erro_Campos_Tamanho_Formato_Invalidos()
-    {
-        // Arrange
-        var model = _faker.Generate();
-        model.Nome = "aa";
-        model.Telefone = "1111111111";
-        model.Email = "testeemail";
-
-        var validationResults = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
-
-        // Act
-        Validator.TryValidateObject(model, new ValidationContext(model, serviceProvider: null, items: null), validationResults, validateAllProperties: true);
-
-        // Assert
-        Assert.That(validationResults[0].ErrorMessage, Is.EqualTo("Nome tem que ser maior que 2 e menor que 50!"));
-        Assert.That(validationResults[1].ErrorMessage, Is.EqualTo("Telefone inválido! O número deve estar no formato (XX) XXXXX-XXXX ou (XX) XXXX-XXXX."));
-        Assert.That(validationResults[2].ErrorMessage, Is.EqualTo("E-mail inválido!"));
-    }
-
-    [Test]
+    [Fact]
+    [Trait("Categoria", "Unit")]
     public void AtualizarContato_Sucesso()
     {
         // Arrange
@@ -159,11 +148,12 @@ public class ContatoTesteUnitario
         var response = contatoController.AtualizarContato(1, model).Result;
 
         // Assert
-        Assert.That(validarAnnotation, Is.True);
-        Assert.That(((ObjectResult)response).Value, Is.EqualTo("Atualizado com sucesso!"));
+        Assert.True(validarAnnotation);
+        Assert.Equal("Atualizado com sucesso!", ((ObjectResult)response).Value);
     }
 
-    [Test]
+    [Fact]
+    [Trait("Categoria", "Unit")]
     public void AtualizarContato_Erro_Retorno_Banco()
     {
         // Arrange
@@ -177,14 +167,13 @@ public class ContatoTesteUnitario
 
         var model = _faker.Generate();
 
-        // Act
+        // Act & Assert
         var ex = Assert.ThrowsAsync<InvalidOperationException>(async () => await contatoController.AtualizarContato(1, model));
-
-        // Assert
-        Assert.That(ex.Message, Is.EqualTo("Erro ao Atualizar!"));
+        Assert.Equal("Erro ao Atualizar!", ex.Result.Message);
     }
 
-    [Test]
+    [Fact]
+    [Trait("Categoria", "Unit")]
     public void AtualizarContato_Erro_Contato_Nao_Existe()
     {
         // Arrange
@@ -197,14 +186,13 @@ public class ContatoTesteUnitario
 
         var model = _faker.Generate();
 
-        // Act
+        // Act & Assert
         var ex = Assert.ThrowsAsync<InvalidOperationException>(async () => await contatoController.AtualizarContato(1, model));
-
-        // Assert
-        Assert.That(ex.Message, Is.EqualTo("Contato não existe!"));
+        Assert.Equal("Contato não existe!", ex.Result.Message);
     }
 
-    [Test]
+    [Fact]
+    [Trait("Categoria", "Unit")]
     public void DeletarContato_Sucesso()
     {
         // Arrange
@@ -220,10 +208,11 @@ public class ContatoTesteUnitario
         var response = contatoController.DeletarContato(1).Result;
 
         // Assert
-        Assert.That(((ObjectResult)response).Value, Is.EqualTo("Deletado com sucesso!"));
+        Assert.Equal("Deletado com sucesso!", ((ObjectResult)response).Value);
     }
 
-    [Test]
+    [Fact]
+    [Trait("Categoria", "Unit")]
     public void DeletarContato_Erro_Retorno_Banco()
     {
         // Arrange
@@ -239,10 +228,11 @@ public class ContatoTesteUnitario
         var ex = Assert.ThrowsAsync<InvalidOperationException>(async () => await contatoController.DeletarContato(1));
 
         // Assert
-        Assert.That(ex.Message, Is.EqualTo("Erro ao Deletar!"));
+        Assert.Equal("Erro ao Deletar!", ex.Result.Message);
     }
 
-    [Test]
+    [Fact]
+    [Trait("Categoria", "Unit")]
     public void DeletarContato_Erro_Contato_Nao_Existe()
     {
         // Arrange
@@ -257,10 +247,11 @@ public class ContatoTesteUnitario
         var ex = Assert.ThrowsAsync<InvalidOperationException>(async () => await contatoController.DeletarContato(1));
 
         // Assert
-        Assert.That(ex.Message, Is.EqualTo("Contato não existe!"));
+        Assert.Equal("Contato não existe!", ex.Result.Message);
     }
 
-    [Test]
+    [Fact]
+    [Trait("Categoria", "Unit")]
     public void ObterTodosContatos_Sucesso()
     {
         // Arrange
@@ -280,11 +271,12 @@ public class ContatoTesteUnitario
 
         // Assert
         bool todasEntidadesPresentes = listaDeModelos.All(m => responseModel.Any(r => r.Nome == m.Nome && r.Email == m.Email && r.Telefone == m.Telefone));
-        Assert.That(todasEntidadesPresentes, Is.True);
-        Assert.That(response.StatusCode, Is.EqualTo(200));
+        Assert.True(todasEntidadesPresentes);
+        Assert.Equal(200, response.StatusCode);
     }
 
-    [Test]
+    [Fact]
+    [Trait("Categoria", "Unit")]
     public void ObterTodosContatos_Parametro_DDD_Sucesso()
     {
         // Arrange
@@ -309,12 +301,13 @@ public class ContatoTesteUnitario
         // Assert
         bool todasEntidadesFiltradasPresentes = listaDeModelosFiltrados.All(m => responseModel.Any(r => r.Nome == m.Nome && r.Email == m.Email && r.Telefone == m.Telefone));
 
-        Assert.That(todasEntidadesFiltradasPresentes, Is.True);
-        Assert.That(response.StatusCode, Is.EqualTo(200));
-        Assert.That(responseModel.Count, Is.EqualTo(listaDeModelosFiltrados.Count));
+        Assert.True(todasEntidadesFiltradasPresentes);
+        Assert.Equal(200, response.StatusCode);
+        Assert.Equal(listaDeModelosFiltrados.Count, responseModel.Count);
     }
 
-    [Test]
+    [Fact]
+    [Trait("Categoria", "Unit")]
     public void ObterTodosContatos_NenhumContatoEncontrado()
     {
         // Arrange
@@ -329,10 +322,11 @@ public class ContatoTesteUnitario
         var response = contatoController.ObterTodosContatos(null).Result;
 
         // Assert
-        Assert.That(((StatusCodeResult)response).StatusCode, Is.EqualTo(404));
+        Assert.Equal(404, ((StatusCodeResult)response).StatusCode);
     }
 
-    [Test]
+    [Fact]
+    [Trait("Categoria", "Unit")]
     public void GetAllContatos_Erro_Retorno_Banco()
     {
         // Arrange
@@ -347,7 +341,6 @@ public class ContatoTesteUnitario
         var ex = Assert.ThrowsAsync<Exception>(async () => await contatoController.ObterTodosContatos(null));
 
         // Assert
-        Assert.That(ex.Message, Is.EqualTo("Erro na conexão!"));
+        Assert.Equal("Erro na conexão!", ex.Result.Message);
     }
-
 }

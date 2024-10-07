@@ -15,9 +15,6 @@
     <PackageReference Include="Docker.DotNet" Version="3.125.15" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageReference Include="Moq" Version="4.20.70" />
-    <PackageReference Include="NUnit" Version="3.14.0" />
-    <PackageReference Include="NUnit.Analyzers" Version="3.9.0" />
-    <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
     <PackageReference Include="xunit" Version="2.9.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2">
       <PrivateAssets>all</PrivateAssets>
@@ -30,10 +27,6 @@
     <ProjectReference Include="..\FIAP_Contato.Application\FIAP_Contato.Application.csproj" />
     <ProjectReference Include="..\FIAP_Contato.Data\FIAP_Contato.Data.csproj" />
     <ProjectReference Include="..\FIAP_Contato.Domain\FIAP_Contato.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Using Include="NUnit.Framework" />
-  </ItemGroup>
+  </ItemGroup>  
 
 </Project>
