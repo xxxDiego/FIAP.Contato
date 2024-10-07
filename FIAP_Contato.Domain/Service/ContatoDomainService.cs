@@ -42,9 +42,9 @@ public class ContatoDomainService : IContatoDomainService
         if (entity == null)
         {
             request.TratarTelefone(request.Telefone);
-            var res = await _contatoRepository.CadastrarAsync(request);
+            var res = await _contatoRepository.CadastrarScalarAsync(request);
 
-            if (res == 0)
+            if (res > 0)
                 response = "Cadastrado com sucesso!";
             else
                 throw new InvalidOperationException("Erro ao Cadastrar!");

@@ -10,16 +10,16 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.ComponentModel.DataAnnotations;
 
-namespace FIAP_Contato.Test;
+namespace FIAP_Contato.Test.Unit;
 
 [TestFixture]
-public class ContatoTeste
+public class ContatoTesteUnitario
 {
     private readonly Faker<ContatoModel> _faker;
     private readonly Faker<Contato> _fakerEntity;
     private AutoMapper.IMapper _mapper;
 
-    public ContatoTeste()
+    public ContatoTesteUnitario()
     {
         _faker = new Faker<ContatoModel>("pt_BR")
             .RuleFor(f => f.Nome, f => f.Name.FullName())
@@ -27,7 +27,7 @@ public class ContatoTeste
             .RuleFor(f => f.Email, f => f.Internet.Email());
 
         _fakerEntity = new Faker<Contato>("pt_BR")
-                .RuleFor(f=> f.Id, f => 1)
+                .RuleFor(f => f.Id, f => 1)
                 .RuleFor(f => f.Nome, f => f.Name.FullName())
                 .RuleFor(f => f.Telefone, f => f.Phone.PhoneNumber())
                 .RuleFor(c => c.DDD, f => f.PickRandom(new[] { "11", "21", "31", "12" }))
@@ -41,7 +41,7 @@ public class ContatoTeste
     {
         // Arrange
         var mockRepository = new Mock<IContatoRepository>();
-        mockRepository.Setup(c => c.CadastrarAsync(It.IsAny<Contato>())).ReturnsAsync(0);
+        mockRepository.Setup(c => c.CadastrarScalarAsync(It.IsAny<Contato>())).ReturnsAsync(1);
 
         var contatoDomain = new ContatoDomainService(mockRepository.Object);
         var contatoService = new ContatoApplicationService(contatoDomain, _mapper);
@@ -156,7 +156,7 @@ public class ContatoTeste
 
         // Act
         var validarAnnotation = Validator.TryValidateObject(model, new ValidationContext(model, null, null), null, true);
-        var response = contatoController.AtualizarContato(1,model).Result;
+        var response = contatoController.AtualizarContato(1, model).Result;
 
         // Assert
         Assert.That(validarAnnotation, Is.True);
