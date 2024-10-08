@@ -10,13 +10,13 @@ using Assert = Xunit.Assert;
 
 namespace FIAP_Contato.Test.Integration
 {
-    public class ContatoTesteIntegracao : IClassFixture<DockerFixture>
+    public class ContatoService : IClassFixture<DockerFixture>
     {
         private readonly DockerFixture _dockerFixture;
         private readonly IContatoRepository _contatoRepository;
         private readonly ContatoDomainService _contatoDomainService;      
 
-        public ContatoTesteIntegracao(DockerFixture dockerFixture)
+        public ContatoService(DockerFixture dockerFixture)
         {
             _dockerFixture = dockerFixture;        
 

@@ -18,13 +18,13 @@ using Xunit;
 
 namespace FIAP_Contato.Test.Unit;
 
-public class ContatoTesteUnitario
+public class ContatoController
 {
     private readonly Faker<ContatoModel> _faker;
     private readonly Faker<Contato> _fakerEntity;
     private AutoMapper.IMapper _mapper;
 
-    public ContatoTesteUnitario()
+    public ContatoController()
     {
         _faker = new Faker<ContatoModel>("pt_BR")
             .RuleFor(f => f.Nome, f => f.Name.FullName())
@@ -51,7 +51,7 @@ public class ContatoTesteUnitario
 
         var contatoDomain = new ContatoDomainService(mockRepository.Object);
         var contatoService = new ContatoApplicationService(contatoDomain, _mapper);
-        var contatoController = new ContatoController(contatoService);
+        var contatoController = new API.Controllers.ContatoController(contatoService);
 
         var model = _faker.Generate();
 
@@ -74,7 +74,7 @@ public class ContatoTesteUnitario
 
         var contatoDomain = new ContatoDomainService(mockRepository.Object);
         var contatoService = new ContatoApplicationService(contatoDomain, _mapper);
-        var contatoController = new ContatoController(contatoService);
+        var contatoController = new API.Controllers.ContatoController(contatoService);
 
         var model = _faker.Generate();
 
@@ -98,7 +98,7 @@ public class ContatoTesteUnitario
 
         var contatoDomain = new ContatoDomainService(mockRepository.Object);
         var contatoService = new ContatoApplicationService(contatoDomain, _mapper);
-        var contatoController = new ContatoController(contatoService);
+        var contatoController = new API.Controllers.ContatoController(contatoService);
 
         // Act        
         var ex = Assert.ThrowsAsync<InvalidOperationException>(async () => await contatoController.CadastrarContato(listaDeModelos.FirstOrDefault()));
@@ -139,7 +139,7 @@ public class ContatoTesteUnitario
 
         var contatoDomain = new ContatoDomainService(mockRepository.Object);
         var contatoService = new ContatoApplicationService(contatoDomain, _mapper);
-        var contatoController = new ContatoController(contatoService);
+        var contatoController = new API.Controllers.ContatoController(contatoService);
 
         var model = _faker.Generate();
 
@@ -163,7 +163,7 @@ public class ContatoTesteUnitario
 
         var contatoDomain = new ContatoDomainService(mockRepository.Object);
         var contatoService = new ContatoApplicationService(contatoDomain, _mapper);
-        var contatoController = new ContatoController(contatoService);
+        var contatoController = new API.Controllers.ContatoController(contatoService);
 
         var model = _faker.Generate();
 
@@ -182,7 +182,7 @@ public class ContatoTesteUnitario
 
         var contatoDomain = new ContatoDomainService(mockRepository.Object);
         var contatoService = new ContatoApplicationService(contatoDomain, _mapper);
-        var contatoController = new ContatoController(contatoService);
+        var contatoController = new API.Controllers.ContatoController(contatoService);
 
         var model = _faker.Generate();
 
@@ -202,7 +202,7 @@ public class ContatoTesteUnitario
 
         var contatoDomain = new ContatoDomainService(mockRepository.Object);
         var contatoService = new ContatoApplicationService(contatoDomain, _mapper);
-        var contatoController = new ContatoController(contatoService);
+        var contatoController = new API.Controllers.ContatoController(contatoService);
 
         // Act
         var response = contatoController.DeletarContato(1).Result;
@@ -222,7 +222,7 @@ public class ContatoTesteUnitario
 
         var contatoDomain = new ContatoDomainService(mockRepository.Object);
         var contatoService = new ContatoApplicationService(contatoDomain, _mapper);
-        var contatoController = new ContatoController(contatoService);
+        var contatoController = new API.Controllers.ContatoController(contatoService);
 
         // Act
         var ex = Assert.ThrowsAsync<InvalidOperationException>(async () => await contatoController.DeletarContato(1));
@@ -241,7 +241,7 @@ public class ContatoTesteUnitario
 
         var contatoDomain = new ContatoDomainService(mockRepository.Object);
         var contatoService = new ContatoApplicationService(contatoDomain, _mapper);
-        var contatoController = new ContatoController(contatoService);
+        var contatoController = new API.Controllers.ContatoController(contatoService);
 
         // Act
         var ex = Assert.ThrowsAsync<InvalidOperationException>(async () => await contatoController.DeletarContato(1));
@@ -263,7 +263,7 @@ public class ContatoTesteUnitario
 
         var contatoDomain = new ContatoDomainService(mockRepository.Object);
         var contatoService = new ContatoApplicationService(contatoDomain, _mapper);
-        var contatoController = new ContatoController(contatoService);
+        var contatoController = new API.Controllers.ContatoController(contatoService);
 
         // Act
         var response = (ObjectResult)contatoController.ObterTodosContatos(null).Result;
@@ -292,7 +292,7 @@ public class ContatoTesteUnitario
 
         var contatoDomain = new ContatoDomainService(mockRepository.Object);
         var contatoService = new ContatoApplicationService(contatoDomain, _mapper);
-        var contatoController = new ContatoController(contatoService);
+        var contatoController = new API.Controllers.ContatoController(contatoService);
 
         // Act
         var response = (ObjectResult)contatoController.ObterTodosContatos(dddFiltrado).Result;
@@ -316,7 +316,7 @@ public class ContatoTesteUnitario
 
         var contatoDomain = new ContatoDomainService(mockRepository.Object);
         var contatoService = new ContatoApplicationService(contatoDomain, _mapper);
-        var contatoController = new ContatoController(contatoService);
+        var contatoController = new API.Controllers.ContatoController(contatoService);
 
         // Act
         var response = contatoController.ObterTodosContatos(null).Result;
@@ -335,7 +335,7 @@ public class ContatoTesteUnitario
 
         var contatoDomain = new ContatoDomainService(mockRepository.Object);
         var contatoService = new ContatoApplicationService(contatoDomain, _mapper);
-        var contatoController = new ContatoController(contatoService);
+        var contatoController = new API.Controllers.ContatoController(contatoService);
 
         // Act
         var ex = Assert.ThrowsAsync<Exception>(async () => await contatoController.ObterTodosContatos(null));
